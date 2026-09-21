@@ -1,0 +1,674 @@
+/* === topic-dice.css ===
+ * 教員用 index.html（縦1カラム構成）+ 生徒用 play.html 共通
+ */
+
+/* ==================================================
+   教員用：入力フォーム
+================================================== */
+.form-group {
+    margin-bottom: var(--spacing-md);
+}
+
+.form-group label {
+    display: block;
+    font-size: 0.9rem;
+    font-weight: 600;
+    color: var(--gray-darker);
+    margin-bottom: 4px;
+}
+
+.form-group .optional {
+    font-size: 0.78em;
+    color: var(--gray-darker);
+    font-weight: 500;
+    margin-left: 4px;
+}
+
+.form-group input[type="text"] {
+    width: 100%;
+    box-sizing: border-box;
+    padding: 10px 12px;
+    border: 1.5px solid var(--gray);
+    border-radius: var(--border-radius-small);
+    font-size: 0.95rem;
+    line-height: 1.5;
+    transition: border-color 0.2s, box-shadow 0.2s;
+}
+
+.form-group input[type="text"]:focus {
+    outline: none;
+    border-color: var(--primary-color);
+    box-shadow: 0 0 0 3px rgba(0, 96, 100, 0.1);
+}
+
+/* テーマ入力リスト（動的） */
+.td-input-label {
+    font-size: 0.9em;
+    font-weight: 600;
+    color: var(--gray-darker);
+    margin-bottom: 6px;
+}
+
+#topicInputs {
+    display: flex;
+    flex-direction: column;
+    gap: var(--spacing-sm);
+    margin-bottom: var(--spacing-sm);
+}
+
+.topic-row {
+    display: flex;
+    align-items: center;
+    gap: var(--spacing-sm);
+}
+
+.topic-num {
+    width: 28px;
+    height: 28px;
+    background: var(--primary-color);
+    color: var(--white);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 0.85em;
+    font-weight: 700;
+    flex-shrink: 0;
+}
+
+.topic-input {
+    flex: 1;
+    box-sizing: border-box;
+    padding: 10px 12px;
+    border: 1.5px solid var(--gray);
+    border-radius: var(--border-radius-small);
+    font-size: 0.95em;
+    line-height: 1.4;
+    transition: border-color 0.2s, box-shadow 0.2s;
+    min-width: 0;
+}
+
+.topic-input:focus {
+    outline: none;
+    border-color: var(--primary-color);
+    box-shadow: 0 0 0 3px rgba(0, 96, 100, 0.12);
+}
+
+.topic-delete {
+    width: 36px;
+    height: 36px;
+    border-radius: var(--border-radius-small);
+    background: transparent;
+    border: 1px solid var(--gray);
+    color: var(--gray-darker);
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+    font-size: 0.9em;
+    transition: var(--transition-smooth);
+}
+
+.topic-delete:hover:not(:disabled) {
+    background: var(--danger-tint);
+    color: var(--danger-color);
+    border-color: var(--danger-color);
+}
+
+.topic-delete:disabled {
+    opacity: 0.3;
+    cursor: not-allowed;
+}
+
+.td-add-topic {
+    width: 100%;
+    padding: 10px;
+    background: transparent;
+    border: 1.5px dashed var(--primary-color);
+    color: var(--primary-color);
+    border-radius: var(--border-radius);
+    cursor: pointer;
+    font-weight: 700;
+    font-size: 0.9em;
+    transition: var(--transition-smooth);
+    margin-bottom: var(--spacing-xs);
+}
+
+.td-add-topic:hover:not(:disabled) {
+    background: rgba(0, 96, 100, 0.06);
+}
+
+.td-add-topic:disabled {
+    opacity: 0.3;
+    cursor: not-allowed;
+}
+
+.td-input-note {
+    font-size: 0.8em;
+    color: var(--gray-darker);
+    margin: 0 0 var(--spacing-sm) 0;
+    line-height: 1.5;
+}
+
+/* モード選択セグメント（教員側の「初期モード」/ 生徒側のモード切替） */
+.td-mode-bar {
+    display: inline-flex;
+    gap: 4px;
+    padding: 4px;
+    background: var(--gray-lighter);
+    border-radius: 999px;
+    border: 1px solid var(--gray-light);
+}
+
+.td-mode-btn {
+    padding: 8px 20px;
+    border: none;
+    background: transparent;
+    color: var(--gray-darker);
+    border-radius: 999px;
+    font-size: 0.9em;
+    font-weight: 700;
+    cursor: pointer;
+    transition: var(--transition-smooth);
+    white-space: nowrap;
+}
+
+.td-mode-btn:hover:not(.active) {
+    color: var(--primary-color);
+}
+
+.td-mode-btn.active {
+    background: var(--primary-color);
+    color: var(--white);
+    box-shadow: var(--shadow-small);
+}
+
+.td-mode-btn i {
+    margin-right: 4px;
+}
+
+/* ==================================================
+   教員用：アクションバー
+================================================== */
+.action-bar {
+    display: flex;
+    gap: var(--spacing-sm);
+    flex-wrap: wrap;
+    padding: var(--spacing-md) 0;
+    justify-content: center;
+}
+
+/* ==================================================
+   教員用：結果カード（URL + サマリー + アクション）
+================================================== */
+.url-box {
+    margin-bottom: var(--spacing-lg);
+}
+
+.url-box label {
+    display: block;
+    font-weight: 700;
+    font-size: 0.9em;
+    color: var(--accent-color);
+    margin-bottom: var(--spacing-xs);
+}
+
+.url-copy-row {
+    display: flex;
+    gap: var(--spacing-sm);
+    align-items: center;
+    flex-wrap: wrap;
+}
+
+.url-copy-row input[type="text"] {
+    flex: 1;
+    min-width: 200px;
+    font-size: 0.85em;
+    background: var(--gray-lighter);
+    cursor: text;
+    padding: 10px 12px;
+    border: 1.5px solid var(--gray);
+    border-radius: var(--border-radius-small);
+    font-family: var(--font-family-mono);
+}
+
+.td-summary {
+    background: rgba(0, 96, 100, 0.06);
+    border-radius: var(--border-radius);
+    padding: var(--spacing-md);
+    margin-bottom: var(--spacing-md);
+}
+
+.td-summary-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-size: 0.95em;
+    padding: 4px 0;
+}
+
+.td-summary-label {
+    color: var(--gray-darker);
+    font-weight: 600;
+}
+
+.td-summary-label i {
+    margin-right: 6px;
+    color: var(--primary-color);
+}
+
+.td-summary-value {
+    color: var(--primary-color);
+    font-weight: 800;
+}
+
+/* ==================================================
+   生徒用：play.html 全般
+================================================== */
+.td-play-title {
+    text-align: center;
+    color: var(--accent-color);
+    font-size: 1.1em;
+    font-weight: 600;
+    margin: 0 0 var(--spacing-lg);
+}
+
+/* 生徒側モード切替（pill 型） */
+.mode-toggle-bar {
+    display: flex;
+    gap: var(--spacing-sm);
+    justify-content: center;
+    margin-bottom: var(--spacing-lg);
+}
+
+.mode-btn {
+    padding: 10px 28px;
+    border: 2px solid var(--primary-color);
+    border-radius: 999px;
+    background: var(--white);
+    color: var(--primary-color);
+    font-size: 1em;
+    font-weight: 700;
+    cursor: pointer;
+    transition: var(--transition-smooth);
+}
+
+.mode-btn:hover {
+    background: rgba(0, 96, 100, 0.08);
+}
+
+.mode-btn.active {
+    background: var(--primary-color);
+    color: var(--white);
+    box-shadow: 0 4px 12px rgba(0, 96, 100, 0.25);
+}
+
+.mode-btn i {
+    margin-right: 6px;
+}
+
+/* ==================================================
+   サイコロ（モックアップ風・白立方体に黒文字）
+   + リアルな振り感アニメ（浮く→3軸回転→落下→着地バウンド）
+================================================== */
+.dice-scene {
+    perspective: 1100px;
+    perspective-origin: 50% 30%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: var(--spacing-xl) 0 60px;
+    min-height: 320px;
+}
+
+/* ステージ：サイコロと床の影を同居 */
+.dice-stage {
+    position: relative;
+    width: 200px;
+    height: 240px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transform-style: preserve-3d;
+}
+
+/* 床の影（楕円・サイコロ真下に固定） */
+.dice-shadow {
+    position: absolute;
+    left: 50%;
+    bottom: -10px;
+    transform: translateX(-50%);
+    width: 150px;
+    height: 22px;
+    background: radial-gradient(ellipse at center,
+        rgba(0, 0, 0, 0.35) 0%,
+        rgba(0, 0, 0, 0.18) 45%,
+        rgba(0, 0, 0, 0) 80%);
+    border-radius: 50%;
+    z-index: 0;
+    pointer-events: none;
+    transform-origin: center;
+}
+
+.dice-shadow.rolling {
+    animation: diceShadowPulse 1.4s cubic-bezier(0.33, 1, 0.68, 1) forwards;
+}
+
+@keyframes diceShadowPulse {
+    0%   { transform: translateX(-50%) scale(1.00, 1.00); opacity: 1; }
+    18%  { transform: translateX(-50%) scale(1.45, 0.55); opacity: 0.45; }
+    50%  { transform: translateX(-50%) scale(1.55, 0.50); opacity: 0.35; }
+    72%  { transform: translateX(-50%) scale(0.85, 1.15); opacity: 1; }
+    82%  { transform: translateX(-50%) scale(1.20, 0.85); opacity: 0.85; }
+    92%  { transform: translateX(-50%) scale(0.95, 1.05); opacity: 1; }
+    100% { transform: translateX(-50%) scale(1.00, 1.00); opacity: 1; }
+}
+
+/* wrapper：上下バウンドを担当。傾きは付けず、選ばれた面を真正面に見せる */
+.dice-wrapper {
+    width: 160px;
+    height: 160px;
+    transform-style: preserve-3d;
+    position: relative;
+    z-index: 1;
+    filter: drop-shadow(0 8px 12px rgba(0, 0, 0, 0.10));
+}
+
+.dice-wrapper.rolling {
+    animation: diceBounce 1.4s cubic-bezier(0.33, 1, 0.68, 1) forwards;
+}
+
+@keyframes diceBounce {
+    0%   { transform: translateY(0); }
+    15%  { transform: translateY(-60px); }
+    35%  { transform: translateY(-90px); }
+    55%  { transform: translateY(-70px); }
+    70%  { transform: translateY(0); }
+    78%  { transform: translateY(-18px); }
+    86%  { transform: translateY(0); }
+    92%  { transform: translateY(-5px); }
+    100% { transform: translateY(0); }
+}
+
+/* dice 自体は純粋な物理的向き：選ばれた面が dice ローカル正面 */
+.dice {
+    width: 100%;
+    height: 100%;
+    transform-style: preserve-3d;
+    transition: transform 1.4s cubic-bezier(0.22, 0.65, 0.36, 1);
+    transform: rotateX(0deg) rotateY(0deg);
+    position: relative;
+}
+
+/* サイコロ立方体の演出色：3D 立体感のため白系グラデと濃グレー文字を固有値で維持 */
+.face {
+    position: absolute;
+    width: 160px;
+    height: 160px;
+    border: 1px solid rgba(0, 0, 0, 0.08);
+    border-radius: 14px;
+    background:
+        linear-gradient(135deg, #ffffff 0%, #fafafa 60%, #ececec 100%);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.1em;
+    font-weight: 800;
+    color: #222;
+    text-align: center;
+    padding: 12px;
+    line-height: 1.25;
+    backface-visibility: hidden;
+    box-shadow:
+        inset 0 2px 0 rgba(255, 255, 255, 0.95),
+        inset 0 -3px 8px rgba(0, 0, 0, 0.08),
+        0 0 0 1px rgba(0, 0, 0, 0.04);
+    word-break: break-word;
+    overflow: hidden;
+    letter-spacing: 0.02em;
+}
+
+.face-front  { transform: translateZ(80px); }
+.face-back   { transform: rotateY(180deg) translateZ(80px); }
+.face-right  { transform: rotateY(90deg)  translateZ(80px); }
+.face-left   { transform: rotateY(-90deg) translateZ(80px); }
+.face-top    { transform: rotateX(90deg)  translateZ(80px); }
+.face-bottom { transform: rotateX(-90deg) translateZ(80px); }
+
+/* ==================================================
+   ルーレット（モックアップ風・多色彩）
+   ※ 円描画は JS で行うため、ここではコンテナと針のみ
+================================================== */
+.roulette-scene {
+    position: relative;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: var(--spacing-xl) 0 var(--spacing-lg);
+}
+
+#rouletteCanvas {
+    max-width: 100%;
+    border-radius: 50%;
+    box-shadow:
+        0 18px 32px rgba(0, 0, 0, 0.18),
+        0 0 0 6px var(--white),
+        0 0 0 8px rgba(0, 0, 0, 0.08);
+    background: var(--white);
+}
+
+.roulette-needle {
+    position: absolute;
+    top: calc(var(--spacing-xl) - 6px);
+    left: 50%;
+    transform: translateX(-50%);
+    width: 0;
+    height: 0;
+    border-left: 14px solid transparent;
+    border-right: 14px solid transparent;
+    border-top: 30px solid var(--danger-color);
+    filter: drop-shadow(0 3px 4px rgba(0, 0, 0, 0.35));
+    z-index: 10;
+}
+
+/* ==================================================
+   結果表示（モックアップ風「今日のテーマは… 〇〇」緑文字）
+================================================== */
+.result-display {
+    text-align: center;
+    margin: var(--spacing-lg) 0;
+    animation: fadeInUp 0.45s ease;
+}
+
+@keyframes fadeInUp {
+    from { opacity: 0; transform: translateY(12px); }
+    to   { opacity: 1; transform: translateY(0); }
+}
+
+.result-label {
+    font-size: 1em;
+    color: var(--gray-darker);
+    font-weight: 600;
+    margin-bottom: var(--spacing-xs);
+    letter-spacing: 0.02em;
+}
+
+.result-topic {
+    font-size: 3em;
+    font-weight: 900;
+    color: var(--success-color);
+    line-height: 1.1;
+    padding: var(--spacing-xs) var(--spacing-lg);
+    display: inline-block;
+    letter-spacing: 0.02em;
+    text-shadow: 0 2px 0 rgba(76, 175, 80, 0.15);
+}
+
+/* ==================================================
+   テーマチップ一覧（play.html 下部）
+================================================== */
+.topic-list-area {
+    margin-top: var(--spacing-xl);
+    padding-top: var(--spacing-lg);
+    border-top: 1px solid rgba(0, 0, 0, 0.08);
+}
+
+.topic-chips {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--spacing-sm);
+    margin-top: var(--spacing-sm);
+    justify-content: center;
+}
+
+.topic-chip {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    background: rgba(0, 96, 100, 0.08);
+    border: 1px solid rgba(0, 96, 100, 0.2);
+    border-radius: 999px;
+    padding: 5px 14px;
+    font-size: 0.9em;
+    font-weight: 600;
+    color: var(--primary-color);
+}
+
+.topic-chip-num {
+    width: 20px;
+    height: 20px;
+    background: var(--primary-color);
+    color: white;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 0.75em;
+    font-weight: 700;
+    flex-shrink: 0;
+}
+
+/* ==================================================
+   使い方ボックス
+================================================== */
+.instructions {
+    background: var(--gray-lighter);
+    padding: var(--spacing-xl);
+    border-radius: var(--border-radius-large);
+    margin-bottom: var(--spacing-sm);
+}
+
+.instructions h3 {
+    font-size: 1.3em;
+    color: var(--gray-darkest);
+    margin-bottom: var(--spacing-lg);
+    display: flex;
+    align-items: center;
+    gap: var(--spacing-sm);
+}
+
+.instructions h3 i {
+    color: var(--primary-color);
+}
+
+.instructions ol {
+    margin-left: var(--spacing-xl);
+    line-height: 1.8;
+}
+
+.instructions li {
+    margin-bottom: var(--spacing-sm);
+    color: var(--gray-darker);
+}
+
+.instructions li strong {
+    color: var(--primary-color);
+    font-weight: 600;
+}
+
+.instructions .note {
+    margin-top: var(--spacing-lg);
+    padding: var(--spacing-md);
+    background: rgba(0, 96, 100, 0.08);
+    border-left: 4px solid var(--primary-color);
+    border-radius: var(--border-radius-small);
+    color: var(--gray-darker);
+    line-height: 1.7;
+}
+
+.instructions .note i {
+    color: var(--warning-color);
+}
+
+/* ==================================================
+   QRコード全画面オーバーレイ
+================================================== */
+.fullscreen-overlay {
+    display: none;
+    position: fixed;
+    inset: 0;
+    background: rgba(0, 60, 70, 0.95);
+    z-index: 9999;
+    backdrop-filter: blur(4px);
+}
+
+.fullscreen-overlay.active {
+    display: block;
+}
+
+.exit-fullscreen-btn {
+    position: absolute;
+    top: var(--spacing-lg);
+    right: var(--spacing-lg);
+    background: rgba(255, 255, 255, 0.15);
+    color: white;
+    border: 2px solid rgba(255, 255, 255, 0.4);
+    border-radius: var(--border-radius);
+    padding: 10px 20px;
+    font-size: 1em;
+    font-weight: 600;
+    cursor: pointer;
+    transition: var(--transition-smooth);
+}
+
+.exit-fullscreen-btn:hover {
+    background: rgba(255, 255, 255, 0.25);
+}
+
+/* ==================================================
+   レスポンシブ（モバイル）
+================================================== */
+@media (max-width: 480px) {
+    .dice-wrapper {
+        width: 130px;
+        height: 130px;
+    }
+
+    .face {
+        width: 130px;
+        height: 130px;
+        font-size: 0.95em;
+    }
+
+    .face-front  { transform: translateZ(65px); }
+    .face-back   { transform: rotateY(180deg) translateZ(65px); }
+    .face-right  { transform: rotateY(90deg)  translateZ(65px); }
+    .face-left   { transform: rotateY(-90deg) translateZ(65px); }
+    .face-top    { transform: rotateX(90deg)  translateZ(65px); }
+    .face-bottom { transform: rotateX(-90deg) translateZ(65px); }
+
+    .result-topic {
+        font-size: 2em;
+    }
+
+    #rouletteCanvas {
+        width: 300px;
+        height: 300px;
+    }
+
+    .mode-btn {
+        padding: 8px 18px;
+        font-size: 0.9em;
+    }
+}

@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    
+    <meta name="robots" content="noindex,nofollow">
+    
+    
+    <link rel="stylesheet" href="common/css/common.css">
+    <link rel="stylesheet" href="common/css/landscape-guard.css">
+    <link rel="stylesheet" href="css/topic-dice.css">
+    <link rel="stylesheet" href="common/vendor/fontawesome/css/fontawesome.css">
+<link rel="stylesheet" href="common/vendor/fontawesome/css/solid.css">
+<title>テーマサイコロ</title>
+<link rel="stylesheet" href="oss/standalone.css">
+<script defer src="oss/standalone.js"></script>
+</head>
+<body class="td-play-body">
+    <div class="container td-play-container">
+        <main>
+            <!-- エラー表示 -->
+            <div class="card" id="errorCard" style="display:none;">
+                <div class="card-body" style="text-align:center; padding:var(--spacing-xl);">
+                    <p style="color:var(--danger-color); font-size:1.1em;">
+                        <i class="fas fa-exclamation-triangle"></i> URLが無効です。先生にURLを確認してください。
+                    </p>
+                    <a href="index.html" class="btn btn-primary" style="margin-top:var(--spacing-lg);">
+                        <i class="fas fa-plus-circle"></i> テーマを作成する
+                    </a>
+                </div>
+            </div>
+
+            <!-- メインUI -->
+            <div id="mainUI" style="display:none;">
+                <p class="td-play-title" id="playTitle">サイコロを振ってテーマを決めよう！</p>
+
+                <!-- モード切り替え -->
+                <div class="mode-toggle-bar">
+                    <button class="mode-btn active" id="btnDice" onclick="setMode('dice')">
+                        <i class="fas fa-dice"></i> サイコロ
+                    </button>
+                    <button class="mode-btn" id="btnRoulette" onclick="setMode('roulette')">
+                        <i class="fas fa-circle-notch"></i> ルーレット
+                    </button>
+                </div>
+
+                <!-- サイコロモード -->
+                <div id="diceMode">
+                    <div class="dice-scene">
+                        <div class="dice-stage">
+                            <div class="dice-wrapper" id="diceWrapper">
+                                <div class="dice" id="dice">
+                                    <div class="face face-front"  id="face0"></div>
+                                    <div class="face face-back"   id="face1"></div>
+                                    <div class="face face-right"  id="face2"></div>
+                                    <div class="face face-left"   id="face3"></div>
+                                    <div class="face face-top"    id="face4"></div>
+                                    <div class="face face-bottom" id="face5"></div>
+                                </div>
+                            </div>
+                            <div class="dice-shadow" id="diceShadow"></div>
+                        </div>
+                    </div>
+
+                    <div class="result-display" id="diceResult" style="visibility:hidden;">
+                        <div class="result-label">今日のテーマは…</div>
+                        <div class="result-topic" id="diceResultText"></div>
+                    </div>
+
+                    <div class="action-bar">
+                        <button class="btn btn-primary btn-large" id="rollBtn" onclick="rollDice()">
+                            <i class="fas fa-dice"></i> サイコロを振る
+                        </button>
+                    </div>
+                </div>
+
+                <!-- ルーレットモード -->
+                <div id="rouletteMode" style="display:none;">
+                    <div class="roulette-scene">
+                        <canvas id="rouletteCanvas" width="400" height="400"></canvas>
+                        <div class="roulette-needle"></div>
+                    </div>
+
+                    <div class="result-display" id="rouletteResult" style="visibility:hidden;">
+                        <div class="result-label">今日のテーマは…</div>
+                        <div class="result-topic" id="rouletteResultText"></div>
+                    </div>
+
+                    <div class="action-bar">
+                        <button class="btn btn-primary btn-large" id="spinBtn" onclick="spinRoulette()">
+                            <i class="fas fa-circle-notch"></i> ルーレットを回す
+                        </button>
+                    </div>
+                </div>
+
+                <!-- テーマ一覧 -->
+                <div class="topic-list-area">
+                    <h3 class="section-title" style="font-size:1em; margin-bottom:var(--spacing-sm);">
+                        <i class="fas fa-list"></i> テーマ一覧
+                    </h3>
+                    <div class="topic-chips" id="topicChips"></div>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <script src="js/topic-dice-play.js"></script>
+    <script src="common/js/landscape-guard.js"></script>
+</body>
+</html>

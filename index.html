@@ -1,0 +1,204 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    
+    <meta name="description" content="スピーキング活動のテーマをサイコロやルーレットで決定。教員がテーマを入力してURLを発行、生徒はボタンを押すだけ。無料。">
+    
+    
+    <link rel="stylesheet" href="common/css/common.css">
+    <link rel="stylesheet" href="common/css/modal.css">
+    <link rel="stylesheet" href="common/css/landscape-guard.css">
+    <link rel="stylesheet" href="css/topic-dice.css">
+    <link rel="stylesheet" href="common/vendor/fontawesome/css/fontawesome.css">
+<link rel="stylesheet" href="common/vendor/fontawesome/css/solid.css">
+    <script src="vendor/qrious/qrious.min.js"></script>
+<title>テーマサイコロ</title>
+<link rel="stylesheet" href="oss/standalone.css">
+<script defer src="oss/standalone.js"></script>
+</head>
+<body>
+    <button id="classModeToggle" class="class-mode-toggle">
+        <i id="classModeIcon" class="fas fa-chalkboard"></i>
+        <span id="classModeText">授業モード OFF</span>
+    </button>
+
+    <div class="site-wrapper">
+        <aside class="ad-left"></aside>
+
+        <div class="container">
+            <header>
+                <h1><i class="fas fa-dice"></i> テーマサイコロ</h1>
+                <p class="subtitle">テーマを入力するだけで、生徒用URL／QRが完成。</p>
+            </header>
+
+            <main>
+                <!-- 3ステップ図解 -->
+                <div class="quick-guide">
+                    <div class="quick-guide-step">
+                        <div class="quick-guide-num">1</div>
+                        <div class="quick-guide-body">
+                            <div class="quick-guide-title">テーマを入力</div>
+                            <div class="quick-guide-desc">2〜6個のスピーキングテーマを入力します</div>
+                        </div>
+                    </div>
+                    <div class="quick-guide-step">
+                        <div class="quick-guide-num">2</div>
+                        <div class="quick-guide-body">
+                            <div class="quick-guide-title">URLを生成</div>
+                            <div class="quick-guide-desc">生徒用URLとQRコードが発行されます</div>
+                        </div>
+                    </div>
+                    <div class="quick-guide-step">
+                        <div class="quick-guide-num">3</div>
+                        <div class="quick-guide-body">
+                            <div class="quick-guide-title">生徒が振る／回す</div>
+                            <div class="quick-guide-desc">URLを開いて、サイコロかルーレットでテーマを決定</div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 入力エリア -->
+                <section class="step-section no-print" id="inputArea">
+                    <h2 class="section-title"><span class="step-badge">STEP 1</span> <i class="fas fa-edit"></i> テーマを入力</h2>
+
+                    <div class="form-group">
+                        <label for="titleInput">タイトル <span class="optional">任意</span></label>
+                        <input type="text" id="titleInput" placeholder="例：Unit 3 Speaking Topics" maxlength="50">
+                    </div>
+
+                    <div class="td-input-label">テーマ（2〜6個）</div>
+                    <div id="topicInputs"></div>
+
+                    <button type="button" class="td-add-topic" id="addTopicBtn">
+                        <i class="fas fa-plus"></i> テーマを追加
+                    </button>
+                    <p class="td-input-note">※2個以上6個以下で入力してください</p>
+
+                    <!-- モード選択 -->
+                    <div class="form-group" style="margin-top: var(--spacing-md);">
+                        <label>初期モード <span class="optional">生徒が最初に見るモード（切替は可能）</span></label>
+                        <div class="td-mode-bar" role="tablist" style="justify-content:flex-start;">
+                            <button type="button" class="td-mode-btn active" data-mode="dice" id="modeBtnDice">
+                                <i class="fas fa-dice"></i> サイコロ
+                            </button>
+                            <button type="button" class="td-mode-btn" data-mode="roulette" id="modeBtnRoulette">
+                                <i class="fas fa-circle-notch"></i> ルーレット
+                            </button>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- アクションバー -->
+                <div class="action-bar no-print" id="actionBar">
+                    <button class="btn btn-primary btn-large" id="generateBtn">
+                        <i class="fas fa-link"></i> 生徒用URLを生成する
+                    </button>
+                </div>
+
+                <!-- 結果エリア -->
+                <div class="result-area" id="resultArea" style="display:none;">
+                    <div class="card">
+                        <div class="card-header">
+                            <h2><i class="fas fa-check-circle" style="color:var(--success-color)"></i> 生徒用URLを作成しました</h2>
+                        </div>
+                        <div class="card-body">
+                            <div class="url-box">
+                                <label><i class="fas fa-user-graduate"></i> 生徒用URL（このURLを生徒に共有してください）</label>
+                                <div class="url-copy-row">
+                                    <input type="text" id="generatedUrl" readonly>
+                                    <button class="btn btn-secondary btn-small" id="copyBtn">
+                                        <i class="fas fa-copy"></i> コピー
+                                    </button>
+                                    <button class="btn btn-info btn-small" id="qrLargeBtn">
+                                        <i class="fas fa-qrcode"></i> QR
+                                    </button>
+                                </div>
+                            </div>
+
+                            <div class="td-summary">
+                                <div class="td-summary-row">
+                                    <span class="td-summary-label"><i class="fas fa-list"></i> テーマ数</span>
+                                    <span class="td-summary-value"><span id="summaryCount">0</span>個</span>
+                                </div>
+                                <div class="td-summary-row">
+                                    <span class="td-summary-label"><i class="fas fa-shuffle"></i> 初期モード</span>
+                                    <span class="td-summary-value" id="summaryMode">サイコロ</span>
+                                </div>
+                            </div>
+
+                            <div style="margin-top:var(--spacing-lg); display:flex; gap:var(--spacing-md); flex-wrap:wrap;">
+                                <a id="playLink" class="btn btn-primary" target="_blank">
+                                    <i class="fas fa-external-link-alt"></i> 生徒画面を開く
+                                </a>
+                                <button class="btn btn-secondary" id="editBtn">
+                                    <i class="fas fa-pen"></i> テーマを修正する
+                                </button>
+                            </div>
+
+                            <div class="privacy-badge" style="margin-top:var(--spacing-lg);">
+                                <i class="fas fa-lock"></i>
+                                <span>入力データはサーバーに送信されません（URLに含まれます）</span>
+                                <span>入力データはこのブラウザ内で処理します。</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 使い方 -->
+                <div class="instructions">
+                    <h3><i class="fas fa-info-circle"></i> 使い方</h3>
+                    <ol>
+                        <li><strong>テーマを入力</strong>：2〜6個のスピーキングテーマを入力します（例：Animals, Food, Sports…）</li>
+                        <li><strong>初期モードを選ぶ</strong>：サイコロ／ルーレットのどちらで生徒に見せるかを選択（生徒側でも切替可）</li>
+                        <li><strong>URLを生成</strong>：「生徒用URLを生成する」を押してリンクとQRを発行</li>
+                        <li><strong>共有</strong>：URLやQRコードを生徒に配布</li>
+                        <li><strong>生徒が使う</strong>：URLを開いてサイコロを振るかルーレットを回し、出たテーマでスピーキング活動</li>
+                    </ol>
+                    <p class="note"><i class="fas fa-lightbulb"></i>
+                        <strong>ヒント</strong>：リンクはブラウザに保存されません。授業ごとに再生成してください。同じテーマを別のクラスで使う場合は同じリンクが使いまわせます。
+                    </p>
+                </div>
+            </main>
+
+            <div class="ad-horizontal no-print">
+                <div class="ad-label">広告</div>
+                <div class="ad-horizontal-content">
+                    <i class="fas fa-rectangle-ad"></i>
+                    <p>728×90 レクタングル（大）バナー広告</p>
+                </div>
+            </div>
+
+            <footer></footer>
+        </div>
+
+        <aside class="ad-right"></aside>
+    </div>
+
+    <!-- QRコード全画面オーバーレイ -->
+    <div id="qrOverlay" class="fullscreen-overlay">
+        <button class="exit-fullscreen-btn" onclick="closeQr()">
+            <i class="fas fa-times"></i> 閉じる
+        </button>
+        <div style="text-align:center; color:white; padding-top:10vh; height:100vh; overflow-y:auto;">
+            <h2 id="qrTitleDisplay" style="margin-bottom:var(--spacing-lg); font-size:2em;">テーマサイコロ</h2>
+            <div style="background:white; padding:20px; display:inline-block; border-radius:10px;">
+                <canvas id="qrCanvas"></canvas>
+            </div>
+            <p style="margin-top:var(--spacing-xl); font-size:1.5em; font-weight:700;">生徒用サイコロリンク</p>
+            <p id="qrUrlDisplay" style="margin-top:var(--spacing-sm); font-size:1.1em; word-break:break-all; max-width:80%; margin-left:auto; margin-right:auto; color:rgba(255,255,255,0.8);"></p>
+        </div>
+    </div>
+
+    <script src="common/js/class-mode.js"></script>
+    <script src="common/js/common-modal.js"></script>
+    
+    
+    
+    
+    
+    <script src="js/topic-dice.js"></script>
+    <script src="common/js/landscape-guard.js"></script>
+</body>
+</html>
